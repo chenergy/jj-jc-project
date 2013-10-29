@@ -18,6 +18,9 @@ public class CharacterMovement : MonoBehaviour {
 		this.controller 	= this.gameObject.GetComponent<CharacterController>();
 		this.movement 		= Vector3.zero;
 		this.oldPosition 	= this.transform.position;
+		foreach ( GameObject lightbeam in GameObject.FindGameObjectsWithTag("LightBeam") ){
+			GameObject.Destroy(lightbeam, 5.0f);
+		}
 	}
 	
 	// Update is called once per frame
