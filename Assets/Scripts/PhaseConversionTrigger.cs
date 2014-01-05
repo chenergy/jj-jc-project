@@ -20,7 +20,7 @@ public class PhaseConversionTrigger : MonoBehaviour
 	}
 	
 	void OnDrawGizmos(){
-		Gizmos.DrawWireCube(this.transform.position, Vector3.one);
+		Gizmos.DrawWireCube (this.transform.position, this.GetComponent<BoxCollider>().size);
 		Gizmos.DrawRay(this.transform.position, this.direction);
 	}
 }

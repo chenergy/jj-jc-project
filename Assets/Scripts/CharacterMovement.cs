@@ -43,9 +43,10 @@ public class CharacterMovement : MonoBehaviour {
 	}
 	
 	protected void ApplyMovement(){
-			this.controller.Move(this.movement * Time.deltaTime);
-			this.movement.x = 0.0f;
-		}
+		this.controller.Move(this.movement * Time.deltaTime);
+		if (this.controller.isGrounded) this.movement.y = 0.0f;
+		this.movement.x = 0.0f;
+	}
 	
 	private void MoveInputDirection(){
 		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0){
