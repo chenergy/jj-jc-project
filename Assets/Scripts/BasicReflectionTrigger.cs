@@ -6,7 +6,7 @@ using System.Collections;
 public class BasicReflectionTrigger : MonoBehaviour
 {
 
-	private bool isRotatable;
+	public bool isRotatable;
 	static float dTheta = 1.0;
 
 	protected virtual void Start(){
