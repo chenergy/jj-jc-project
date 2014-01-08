@@ -5,6 +5,10 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider))]
 public class BasicReflectionTrigger : MonoBehaviour
 {
+
+	private bool isRotatable;
+	static float dTheta = 1.0;
+
 	protected virtual void Start(){
 	}
 
@@ -22,7 +26,14 @@ public class BasicReflectionTrigger : MonoBehaviour
 			GameObject.Destroy (other.gameObject);
 		}
 	}
-	
+
+	void OnTriggerStay( Collider other){
+		if (other.tag == "Tongue") {
+			this.transform.Rotate (0, 0, dTheta);
+			yield return;
+		}
+	}
+
 	void OnDrawGizmos(){
 		Gizmos.DrawWireCube (this.transform.position, this.GetComponent<BoxCollider>().size);
 		Gizmos.DrawRay (this.transform.position, this.transform.TransformDirection (Vector3.down));
