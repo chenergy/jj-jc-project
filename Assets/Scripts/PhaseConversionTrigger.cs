@@ -4,6 +4,7 @@ using System.Collections;
 public class PhaseConversionTrigger : MonoBehaviour
 {
 	public Vector3 direction;
+	public GameObject lightBeam;
 	
 	void Start(){
 		this.direction = this.direction.normalized;
@@ -11,8 +12,8 @@ public class PhaseConversionTrigger : MonoBehaviour
 	
 	void OnTriggerEnter( Collider other ){
 		if (other.tag == "Player"){
-			GameObject prefab = Resources.Load("LightBeam", typeof(GameObject)) as GameObject;
-			GameObject newLightBeam = GameObject.Instantiate(prefab, this.transform.position, Quaternion.identity) as GameObject;
+			//GameObject prefab = Resources.Load("LightBeam", typeof(GameObject)) as GameObject;
+			GameObject newLightBeam = GameObject.Instantiate(lightBeam, this.transform.position, Quaternion.identity) as GameObject;
 			newLightBeam.GetComponent<LightBeam>().direction = this.direction;
 			Camera.main.GetComponent<CameraMovement>().target = newLightBeam;
 			GameObject.Destroy(other.gameObject);

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof (CharacterController))]
-public class CharacterMovement : MonoBehaviour {
+public class PlayerCharacterMovement : CharacterMovement
+{
 	public	float				moveSpeed 		= 10.0f;
 	public	float				jumpStrength 	= 10.0f;
 	
@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour {
 	private Vector3				movement;
 	private Vector3				direction;
 	private bool				canJump;
+	private Vector3             tongue;
 	
 	// MonoBehavior interface functions
 	// Use this for initialization
@@ -52,7 +53,7 @@ public class CharacterMovement : MonoBehaviour {
 		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0){
 			this.movement.x += this.moveSpeed * Input.GetAxis("Horizontal");
 		}
-			
+		
 		if (Input.GetKeyDown(KeyCode.Space)){
 			if (!this.canJump){
 				this.Jump();
@@ -73,4 +74,9 @@ public class CharacterMovement : MonoBehaviour {
 		this.direction 		= (this.transform.position - this.oldPosition).normalized;
 		this.oldPosition 	= this.transform.position;
 	}
+	
+	private void CheckTongue(){
+		//Input.GetButton()
+	}
 }
+

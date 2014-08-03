@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PhaseAcceptor : MonoBehaviour
 {
+	public GameObject character;
 	public int thresholdBeams = 1;
 
 	[HideInInspector]
@@ -15,8 +16,8 @@ public class PhaseAcceptor : MonoBehaviour
 
 	void Update(){
 		if (this.currentBeams == this.thresholdBeams && this.isEnabled) {
-			GameObject prefab = Resources.Load("Character", typeof(GameObject)) as GameObject;
-			GameObject newCharacter = GameObject.Instantiate(prefab, this.transform.position + new Vector3(0,2,0), Quaternion.identity) as GameObject;
+			//GameObject prefab = Resources.Load("Character", typeof(GameObject)) as GameObject;
+			GameObject newCharacter = GameObject.Instantiate(character, this.transform.position + new Vector3(0,2,0), Quaternion.identity) as GameObject;
 			Camera.main.GetComponent<CameraMovement>().target = newCharacter;
 			foreach (GameObject lightbeam in GameObject.FindGameObjectsWithTag("LightBeam"))
 				//lightbeam.GetComponent<LightBeam>().enabled = false;

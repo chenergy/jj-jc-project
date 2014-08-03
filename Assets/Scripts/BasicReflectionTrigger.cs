@@ -5,9 +5,9 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider))]
 public class BasicReflectionTrigger : MonoBehaviour
 {
-
+	public GameObject lightBeam;
 	public bool isRotatable;
-	static float dTheta = 1.0;
+	static float dTheta = 1.0f;
 
 	protected virtual void Start(){
 	}
@@ -30,7 +30,7 @@ public class BasicReflectionTrigger : MonoBehaviour
 	void OnTriggerStay( Collider other){
 		if (other.tag == "Tongue") {
 			this.transform.Rotate (0, 0, dTheta);
-			yield return;
+			//yield return;
 		}
 	}
 
@@ -48,8 +48,8 @@ public class BasicReflectionTrigger : MonoBehaviour
 	}
 	
 	private void CreateBeam(Vector3 position, Vector3 direction){
-		GameObject prefab = Resources.Load("LightBeam", typeof(GameObject)) as GameObject;
-		GameObject newLightBeam = GameObject.Instantiate(prefab, position, Quaternion.identity) as GameObject;
+		//GameObject prefab = Resources.Load("LightBeam", typeof(GameObject)) as GameObject;
+		GameObject newLightBeam = GameObject.Instantiate(lightBeam, position, Quaternion.identity) as GameObject;
 		newLightBeam.GetComponent<LightBeam>().direction = direction;
 		//return newLightBeam;
 	}
