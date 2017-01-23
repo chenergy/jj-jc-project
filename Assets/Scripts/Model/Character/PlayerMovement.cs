@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerCharacterMovement : CharacterMovement
+public class PlayerMovement : A_CharacterMovement
 {
 	public	float				moveSpeed 		= 10.0f;
 	public	float				jumpStrength 	= 10.0f;
