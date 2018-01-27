@@ -4,14 +4,12 @@ using System.Collections;
 public class PlayerMovement : A_CharacterMovement
 {
 	public	float				moveSpeed 		= 10.0f;
-	public	float				jumpStrength 	= 10.0f;
-	
 	private CharacterController controller;
 	private Vector3				oldPosition;
 	private Vector3				movement;
 	private Vector3				direction;
-	private bool				canJump;
-	private Vector3             tongue;
+    public GameObject rotatorBeamPrefab;
+    private GameObject rotatorBeam;
 	
 	// MonoBehavior interface functions
 	// Use this for initialization
@@ -27,56 +25,54 @@ public class PlayerMovement : A_CharacterMovement
 	// Update is called once per frame
 	void Update () {
 		this.UpdateDirection();
-		this.CheckCanJump();
-//		this.ApplyGravity();
-		this.MoveInputDirection();
+ 		this.MoveInputDirection();
 		this.ApplyMovement();
-		//Debug.Log(this.controller.isGrounded);
-	}
-	
-	// Public
-	public Vector3 Direction{ get{ return this.direction; } }
+        this.CheckRotatorEnabled();
+
+    }
+
+    // Public
+    public Vector3 Direction{ get{ return this.direction; } }
 	
 	
 	// Private
-	private void ApplyGravity(){
-		this.movement.y += Physics.gravity.y * Time.deltaTime;
-	}
 	
-	protected void ApplyMovement(){
-		this.controller.Move(this.movement * Time.deltaTime);
-		if (this.controller.isGrounded) this.movement.y = 0.0f;
+	private void ApplyMovement(){
+        this.controller.Move(this.movement * Time.deltaTime);
+	    this.movement.y = 0.0f;
 		this.movement.x = 0.0f;
 	}
 	
 	private void MoveInputDirection(){
+    
 		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0){
 			this.movement.x += this.moveSpeed * Input.GetAxis("Horizontal");
 		}
+        if (Mathf.Abs(Input.GetAxis("Vertical")) > 0)
+        {
+            this.movement.y += this.moveSpeed * Input.GetAxis("Vertical");
+        }
+    }
 		
-		if (Input.GetKeyDown(KeyCode.Space)){
-			if (!this.canJump){
-				this.Jump();
-			}
-		}
-	}
-	
-	private void CheckCanJump(){
-		this.canJump = (this.controller.isGrounded) ? false : true;
-	}
-	
-	private void Jump(){
-		this.canJump = true;
-		this.movement.y = this.jumpStrength;
-	}
-	
 	private void UpdateDirection(){
 		this.direction 		= (this.transform.position - this.oldPosition).normalized;
 		this.oldPosition 	= this.transform.position;
 	}
 	
-	private void CheckTongue(){
-		//Input.GetButton()
-	}
+    private void CheckRotatorEnabled()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
+        }
+        else if (Input.GetKey(KeyCode.Space))
+        {
+            rotatorBeam.transform.position = this.transform.position;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            GameObject.Destroy(rotatorBeam);
+        }
+    }
 }
 
