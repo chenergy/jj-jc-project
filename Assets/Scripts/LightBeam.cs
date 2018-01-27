@@ -10,13 +10,13 @@ public class LightBeam : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		Invoke("ResetLayer", 0.5f);
+		//Invoke("ResetLayer", 0.5f);
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
-		this.transform.position += this.direction * this.speed * Time.deltaTime;
+		this.transform.position += this.direction * this.speed * Time.fixedDeltaTime;
 	}
 
 	void OnDrawGizmos(){

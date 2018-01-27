@@ -18,8 +18,10 @@ public class GenerateLightTrigger : MonoBehaviour
 				GameObject newLightBeam = GameObject.Instantiate(lightBeam, this.transform.position, Quaternion.identity) as GameObject;
 				newLightBeam.GetComponent<LightBeam>().direction = direction;
 			}
-		}
         GameObject.Destroy(other.gameObject);
+
+        }
+
     }
 	
 	void OnDrawGizmos(){
