@@ -28,7 +28,7 @@ public class PlayerMovement : A_CharacterMovement
 	void Update () {
 		this.UpdateDirection();
 		this.CheckCanJump();
-		this.ApplyGravity();
+//		this.ApplyGravity();
 		this.MoveInputDirection();
 		this.ApplyMovement();
 		//Debug.Log(this.controller.isGrounded);
