@@ -25,10 +25,11 @@ public class PlayerMovement : A_CharacterMovement
 	// Update is called once per frame
 	void Update () {
 		this.UpdateDirection();
- 		this.MoveInputDirection();
-		this.ApplyMovement();
-        this.CheckRotatorEnabled();
-
+        if (!this.CheckRotatorEnabled())
+        {
+            this.MoveInputDirection();
+            this.ApplyMovement();
+        }
     }
 
     // Public
@@ -59,20 +60,24 @@ public class PlayerMovement : A_CharacterMovement
 		this.oldPosition 	= this.transform.position;
 	}
 	
-    private void CheckRotatorEnabled()
+    private bool CheckRotatorEnabled()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
+            return true;
         }
         else if (Input.GetKey(KeyCode.Space))
         {
             rotatorBeam.transform.position = this.transform.position;
+            return true;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             GameObject.Destroy(rotatorBeam);
+            return false;
         }
+        return false;
     }
 }
 

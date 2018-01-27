@@ -27,31 +27,37 @@ public class BasicReflectionTrigger : MonoBehaviour
             other.GetComponent<LightBeam>().direction = newDirection;
             //this.CreateBeam(other.transform.position, newDirection);
 			//GameObject.Destroy (other.gameObject);
-		} 
-        if (other.tag == "RotatorBeam")
+		}
+        if (other.tag == "RotatorBeam" && this.isRotatable)
         {
-            if (this.isRotatable)
-            {
-                this.transform.Rotate(Vector3.forward, dTheta);
-                this.angle += dTheta;
-                this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
-            }
+            MirrorRotate();
         }
+        
 	}
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "RotatorBeam")
+        if (other.tag == "RotatorBeam" && this.isRotatable)
         {
-            if (this.isRotatable)
-            {
-                this.transform.Rotate(Vector3.forward, dTheta);
-                this.angle += dTheta;
-                this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
-            }
+            MirrorRotate();
         }
     }
 
+    private void MirrorRotate()
+    {
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            this.transform.Rotate(Vector3.forward, dTheta);
+            this.angle += dTheta;
+            this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
+        }
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            this.transform.Rotate(Vector3.forward, -dTheta);
+            this.angle -= dTheta;
+            this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
+        }
+    }
 
     void OnDrawGizmos(){
 		Gizmos.DrawWireCube (this.transform.position, this.GetComponent<BoxCollider>().size);
