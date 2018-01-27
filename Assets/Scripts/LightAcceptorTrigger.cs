@@ -10,6 +10,8 @@ public class LightAcceptorTrigger : MonoBehaviour {
     private float timer;
     private bool isTiming;
     public float TIME_LIMIT;
+    public float setPhase;
+    public float phaseTol = 0.1f;
         
     void Start()
     {
@@ -28,7 +30,7 @@ public class LightAcceptorTrigger : MonoBehaviour {
                     GameObject.Destroy(lightbeam);
                 }
                 ResetAcceptor();
-                Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
+                Instantiate(player, new Vector3(-5, 0, 0), Quaternion.identity);
             }
         }
     }
@@ -38,17 +40,18 @@ public class LightAcceptorTrigger : MonoBehaviour {
         Debug.Log("collision detected");
         if (other.tag == "LightBeam")
         {
-            Debug.Log("light detected");
-            this.currBeams++;
-            if(currBeams == 1 && acceptorNum!= 1)
+            if (Mathf.Abs(other.GetComponent<LightBeam>().phase - this.setPhase) < phaseTol)
             {
-                isTiming = true;
+                this.currBeams++;
+                GameObject.Destroy(other.gameObject);
             }
-            GameObject.Destroy(other.gameObject);
-            if(this.currBeams == acceptorNum)
+            if (currBeams == acceptorNum)
             {
                 ResetAcceptor();
                 GameObject newPlayer = GameObject.Instantiate(player, this.transform.position, Quaternion.identity) as GameObject;
+            } else
+            {
+                isTiming = true;
             }
         }
     }
@@ -58,6 +61,7 @@ public class LightAcceptorTrigger : MonoBehaviour {
         isTiming = false;
         timer = 0;
         currBeams = 0;
+        setPhase = 0;
     }
 
     void OnDrawGizmos()

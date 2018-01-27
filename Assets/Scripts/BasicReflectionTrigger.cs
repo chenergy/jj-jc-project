@@ -24,8 +24,9 @@ public class BasicReflectionTrigger : MonoBehaviour
  			Vector3 inDirection = other.GetComponent<LightBeam>().direction;
 			//Vector3 newDirection = this.GetNewDirection(oldDirection, this.reflectionPlane);
             Vector3 newDirection = Vector3.Reflect(inDirection, this.reflectionPlane);
-			this.CreateBeam(other.transform.position, newDirection);
-			GameObject.Destroy (other.gameObject);
+            other.GetComponent<LightBeam>().direction = newDirection;
+            //this.CreateBeam(other.transform.position, newDirection);
+			//GameObject.Destroy (other.gameObject);
 		} 
         if (other.tag == "RotatorBeam")
         {
