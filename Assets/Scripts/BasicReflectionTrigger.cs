@@ -11,6 +11,12 @@ public class BasicReflectionTrigger : MonoBehaviour
     private Vector3 reflectionPlane;
     public float angle;
 
+	[Header("Particles")]
+	public GameObject cw0;
+	public GameObject cw1;
+	public GameObject ccw0;
+	public GameObject ccw1;
+
 	protected virtual void Start(){
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
@@ -43,6 +49,17 @@ public class BasicReflectionTrigger : MonoBehaviour
         }
     }
 
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.tag == "RotatorBeam" && this.isRotatable)
+		{
+			cw0.SetActive (false);
+			cw1.SetActive (false);
+			ccw0.SetActive (false);
+			ccw1.SetActive (false);
+		}
+	}
+
     private void MirrorRotate()
     {
         if (Input.GetAxis("Horizontal") > 0)
@@ -50,13 +67,28 @@ public class BasicReflectionTrigger : MonoBehaviour
             this.transform.Rotate(Vector3.forward, dTheta);
             this.angle += dTheta;
             this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
+			cw0.SetActive (false);
+			cw1.SetActive (false);
+			ccw0.SetActive (true);
+			ccw1.SetActive (true);
         }
         if (Input.GetAxis("Horizontal") < 0)
         {
             this.transform.Rotate(Vector3.forward, -dTheta);
             this.angle -= dTheta;
             this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
+			ccw0.SetActive (false);
+			ccw1.SetActive (false);
+			cw0.SetActive (true);
+			cw1.SetActive (true);
         }
+		if (Input.GetAxisRaw ("Horizontal") == 0)
+		{
+			cw0.SetActive (false);
+			cw1.SetActive (false);
+			ccw0.SetActive (false);
+			ccw1.SetActive (false);
+		}
     }
 
     void OnDrawGizmos(){
