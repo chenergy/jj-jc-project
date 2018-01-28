@@ -8,7 +8,7 @@ public class PhaseShifter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		shiftAmount = 1f;
 	}
 
 
