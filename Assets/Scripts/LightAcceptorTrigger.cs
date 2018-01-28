@@ -6,7 +6,7 @@ public class LightAcceptorTrigger : MonoBehaviour {
 
     public int acceptorNum;
     private int currBeams;
-    public GameObject player;
+    public GenerateLightTrigger LightGenerator;
     private float timer;
     private bool isTiming;
     public float TIME_LIMIT;
@@ -25,12 +25,7 @@ public class LightAcceptorTrigger : MonoBehaviour {
             timer += Time.deltaTime;
             if(timer > TIME_LIMIT)
             {
-                foreach (GameObject lightbeam in GameObject.FindGameObjectsWithTag("LightBeam"))
-                {
-                    GameObject.Destroy(lightbeam);
-                }
                 ResetAcceptor();
-                Instantiate(player, new Vector3(-5, 0, 0), Quaternion.identity);
             }
         }
     }
@@ -40,15 +35,17 @@ public class LightAcceptorTrigger : MonoBehaviour {
         Debug.Log("collision detected");
         if (other.tag == "LightBeam")
         {
-            if (Mathf.Abs(other.GetComponent<LightBeam>().phase - this.setPhase) < phaseTol)
+            Debug.Log(other.GetComponent<LightBeam>().phase);
+            if (Mathf.Abs(other.GetComponent<LightBeam>().phase - this.setPhase) < phaseTol ||
+                (Mathf.Abs(other.GetComponent<LightBeam>().phase-other. GetComponent<LightBeam>().period - this.setPhase) < phaseTol))
             {
                 this.currBeams++;
                 GameObject.Destroy(other.gameObject);
             }
             if (currBeams == acceptorNum)
             {
+                LightGenerator.isEnabled = false;
                 ResetAcceptor();
-                GameObject newPlayer = GameObject.Instantiate(player, this.transform.position, Quaternion.identity) as GameObject;
             } else
             {
                 isTiming = true;
@@ -61,7 +58,6 @@ public class LightAcceptorTrigger : MonoBehaviour {
         isTiming = false;
         timer = 0;
         currBeams = 0;
-        setPhase = 0;
     }
 
     void OnDrawGizmos()

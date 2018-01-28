@@ -5,8 +5,7 @@ public class LightBeam : MonoBehaviour
 {
 	[HideInInspector]
 	public Vector3 	direction;
-	public float	speed = 10.0f;
-	public Vector3	newCharacterOffset;
+	private float	speed = 10.0f;
     public float phase;
     public float period;
 
@@ -14,7 +13,7 @@ public class LightBeam : MonoBehaviour
 	void Start ()
 	{
         phase = 0;
-        period = 1f;
+        period = 2f;
     }
 	
 	// Update is called once per frame
@@ -24,6 +23,10 @@ public class LightBeam : MonoBehaviour
         this.phase = (this.phase + Time.fixedDeltaTime) % (period);
         this.GetComponent<TrailRenderer>().startColor = new Color(Mathf.Sin(2 * Mathf.PI * phase / period), 0, 0);
         this.GetComponent<TrailRenderer>().endColor = new Color(Mathf.Sin(2 * Mathf.PI * phase / period), 0, 0);
+        if(this.transform.position.sqrMagnitude >= 10000)
+        {
+            Destroy(this.gameObject);
+        }
 	}
 
 	void OnDrawGizmos(){

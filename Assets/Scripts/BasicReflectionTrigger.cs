@@ -27,6 +27,7 @@ public class BasicReflectionTrigger : MonoBehaviour
 
 	void OnTriggerEnter( Collider other ){
 		if (other.tag == "LightBeam"){
+            Debug.Log("reflection");
  			Vector3 inDirection = other.GetComponent<LightBeam>().direction;
 			//Vector3 newDirection = this.GetNewDirection(oldDirection, this.reflectionPlane);
             Vector3 newDirection = Vector3.Reflect(inDirection, this.reflectionPlane);
