@@ -22,6 +22,14 @@ public class SceneController : MonoBehaviour
 		}
 	}
 
+	public void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Escape))
+		{
+			Application.Quit ();
+		}
+	}
+
 	public void LoadNewScene(string sceneName)
 	{
 		if (loadSceneRoutine != null)

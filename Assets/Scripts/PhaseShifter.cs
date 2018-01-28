@@ -24,6 +24,7 @@ public class PhaseShifter : MonoBehaviour {
             if (!player.GetComponent<PlayerMovement>().hasShifter)
             {
                 player.GetComponent<PlayerMovement>().hasShifter = true;
+				player.GetComponent<PlayerMovement> ().phaseShifterIcon.SetActive (true);
                 GameObject.Destroy(this.gameObject);
             }
         }

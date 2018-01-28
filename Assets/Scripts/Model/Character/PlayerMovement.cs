@@ -13,6 +13,7 @@ public class PlayerMovement : A_CharacterMovement
     public bool hasShifter;
     public GameObject PhaseShifter;
 	public GameObject playerModel;
+	public GameObject phaseShifterIcon;
 	
 	// MonoBehavior interface functions
 	// Use this for initialization
@@ -24,6 +25,7 @@ public class PlayerMovement : A_CharacterMovement
 			GameObject.Destroy(lightbeam, 5.0f);
 		}
         this.hasShifter = false;
+		this.phaseShifterIcon.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -78,6 +80,7 @@ public class PlayerMovement : A_CharacterMovement
 //				GameObject.Instantiate(PhaseShifter, this.transform.position + new Vector3(1, 0 ,0), Quaternion.identity);
 				GameObject.Instantiate(PhaseShifter, this.transform.position + this.transform.right, Quaternion.identity);
                 this.hasShifter = false;
+				this.phaseShifterIcon.SetActive (false);
             } else
             {
 //                rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
