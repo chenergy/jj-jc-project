@@ -10,6 +10,7 @@ public class BasicReflectionTrigger : MonoBehaviour
 	static float dTheta = 0.25f;
     private Vector3 reflectionPlane;
     public float angle;
+	public GameObject arrows;
 
 	[Header("Particles")]
 	public GameObject cw0;
@@ -18,11 +19,16 @@ public class BasicReflectionTrigger : MonoBehaviour
 	public GameObject ccw1;
 
 	protected virtual void Start(){
+		arrows.transform.SetParent (null);
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         this.reflectionPlane = Quaternion.Euler(0, 0, angle) * Vector3.down;
+		arrows.SetActive (false);
 	}
 
 	protected virtual void Update(){
+		if (Input.GetKeyUp (KeyCode.Space)) {
+			arrows.SetActive (false);
+		}
 	}
 
 	void OnTriggerEnter( Collider other ){
@@ -38,6 +44,7 @@ public class BasicReflectionTrigger : MonoBehaviour
         if (other.tag == "RotatorBeam" && this.isRotatable)
         {
             MirrorRotate();
+			arrows.SetActive (true);
         }
         
 	}
@@ -47,6 +54,7 @@ public class BasicReflectionTrigger : MonoBehaviour
         if (other.tag == "RotatorBeam" && this.isRotatable)
         {
             MirrorRotate();
+			arrows.transform.rotation = Quaternion.Euler (90, 0, 0);
         }
     }
 

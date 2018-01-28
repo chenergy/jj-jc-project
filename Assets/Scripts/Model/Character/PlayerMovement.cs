@@ -75,7 +75,8 @@ public class PlayerMovement : A_CharacterMovement
             if (this.hasShifter)
             {
                 Debug.Log("Deploy shifter"); 
-                GameObject.Instantiate(PhaseShifter, this.transform.position + new Vector3(1, 0 ,0), Quaternion.identity);
+//				GameObject.Instantiate(PhaseShifter, this.transform.position + new Vector3(1, 0 ,0), Quaternion.identity);
+				GameObject.Instantiate(PhaseShifter, this.transform.position + this.transform.right, Quaternion.identity);
                 this.hasShifter = false;
             } else
             {
