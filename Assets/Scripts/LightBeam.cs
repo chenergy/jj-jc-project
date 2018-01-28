@@ -5,7 +5,7 @@ public class LightBeam : MonoBehaviour
 {
 	[HideInInspector]
 	public Vector3 	direction;
-	private float	speed = 10.0f;
+	public float	speed = 10.0f;
     public float phase;
     public float period;
 

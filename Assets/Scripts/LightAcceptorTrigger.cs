@@ -16,13 +16,16 @@ public class LightAcceptorTrigger : MonoBehaviour {
 	public Transform cameraTransform;
 	public Renderer crystalRenderer;
 	private Material crystalMaterial;
+    private List<GameObject> connected;
         
     void Start()
     {
 		crystalMaterial = crystalRenderer.material;
+ 		Color setPhaseColor = new Color (Mathf.Sin (2 * Mathf.PI * setPhase / 2f), 0, 0);
+        crystalMaterial.SetColor("_EmissionColor", setPhaseColor);
+        connected = new List<GameObject>();
         ResetAcceptor();
-		Color setPhaseColor = new Color (Mathf.Sin (2 * Mathf.PI * setPhase / 2f), 0, 0);
-		crystalMaterial.SetColor ("_EmissionColor", setPhaseColor);
+
     }
 
     private void Update()
@@ -47,11 +50,13 @@ public class LightAcceptorTrigger : MonoBehaviour {
                 (Mathf.Abs(other.GetComponent<LightBeam>().phase-other.GetComponent<LightBeam>().period - this.setPhase) < phaseTol))
             {
                 this.currBeams++;
-                GameObject.Destroy(other.gameObject);
+                other.GetComponent<LightBeam>().speed = 0;
+                Debug.Log(other.gameObject == null);
+                connected.Add(other.gameObject);
+                //GameObject.Destroy(other.gameObject);
             }
             if (currBeams == acceptorNum)
-            {
-				
+            {				
                 LightGenerator.isEnabled = false;
                 ResetAcceptor();
 				SceneController.Instance.LoadNewScene (nextLevel);
@@ -64,6 +69,14 @@ public class LightAcceptorTrigger : MonoBehaviour {
 
     void ResetAcceptor()
     {
+        foreach(GameObject obj in connected)
+        {
+            if (obj != null)
+            {
+                GameObject.Destroy(obj);
+            }
+        }
+        connected.Clear();
         isTiming = false;
         timer = 0;
         currBeams = 0;
