@@ -15,13 +15,15 @@ public class LightAcceptorTrigger : MonoBehaviour {
 	public string nextLevel;
 	public Transform cameraTransform;
 	public Renderer crystalRenderer;
+	public GameObject particlePrefab;
 	private Material crystalMaterial;
     private List<GameObject> connected;
         
     void Start()
     {
 		crystalMaterial = crystalRenderer.material;
- 		Color setPhaseColor = new Color (Mathf.Sin (2 * Mathf.PI * setPhase / 2f), 0, 0);
+// 		Color setPhaseColor = new Color (Mathf.Sin (2 * Mathf.PI * setPhase / 2f), 0, 0);
+		Color setPhaseColor = new Color(.5f + Mathf.Sin(2 * Mathf.PI * setPhase / LightBeam.PERIOD)/2f , .5f + Mathf.Cos(2 * Mathf.PI * setPhase / LightBeam.PERIOD)/2f, 0);
         crystalMaterial.SetColor("_EmissionColor", setPhaseColor);
         connected = new List<GameObject>();
         ResetAcceptor();
@@ -47,14 +49,31 @@ public class LightAcceptorTrigger : MonoBehaviour {
         {
             Debug.Log(other.GetComponent<LightBeam>().phase);
             if (Mathf.Abs(other.GetComponent<LightBeam>().phase - this.setPhase) < phaseTol ||
-                (Mathf.Abs(other.GetComponent<LightBeam>().phase-other.GetComponent<LightBeam>().period - this.setPhase) < phaseTol))
+				(Mathf.Abs(other.GetComponent<LightBeam>().phase-LightBeam.PERIOD - this.setPhase) < phaseTol))
             {
                 this.currBeams++;
-                other.GetComponent<LightBeam>().speed = 0;
+//                other.GetComponent<LightBeam>().SPEED = 0;
                 Debug.Log(other.gameObject == null);
                 connected.Add(other.gameObject);
                 //GameObject.Destroy(other.gameObject);
+
+				// Create a particle prefab.
+				LightBeam lb = other.GetComponent<LightBeam> ();
+				GameObject newParticle = Instantiate (particlePrefab, transform.position, Quaternion.identity);
+				ParticleSystem.MainModule module = newParticle.GetComponent<ParticleSystem> ().main;
+				module.startColor = lb.CurColor;
+				Destroy (newParticle, 1.5f);
             }
+			else
+			{
+				// Create a particle prefab.
+				LightBeam lb = other.GetComponent<LightBeam> ();
+				GameObject newParticle = Instantiate (particlePrefab, transform.position, Quaternion.identity);
+				ParticleSystem.MainModule module = newParticle.GetComponent<ParticleSystem> ().main;
+				module.startColor = lb.CurColor;
+				Destroy (newParticle, 1.5f);
+			}
+				
             if (currBeams == acceptorNum)
             {				
                 LightGenerator.isEnabled = false;

@@ -3,22 +3,23 @@ using System.Collections;
 
 public class PlayerMovement : A_CharacterMovement
 {
-	public	float				moveSpeed 		= 10.0f;
+	public	float moveSpeed = 10.0f;
 	private CharacterController controller;
-	private Vector3				oldPosition;
-	private Vector3				movement;
-	private Vector3				direction;
+	private Vector3 oldPosition;
+	private Vector3 movement;
+	private Vector3 direction;
     public GameObject rotatorBeamPrefab;
     private GameObject rotatorBeam;
     public bool hasShifter;
     public GameObject PhaseShifter;
+	public GameObject playerModel;
 	
 	// MonoBehavior interface functions
 	// Use this for initialization
 	void Start () {
-		this.controller 	= this.gameObject.GetComponent<CharacterController>();
-		this.movement 		= Vector3.zero;
-		this.oldPosition 	= this.transform.position;
+		this.controller = this.gameObject.GetComponent<CharacterController>();
+		this.movement = Vector3.zero;
+		this.oldPosition = this.transform.position;
 		foreach ( GameObject lightbeam in GameObject.FindGameObjectsWithTag("LightBeam") ){
 			GameObject.Destroy(lightbeam, 5.0f);
 		}
@@ -59,8 +60,12 @@ public class PlayerMovement : A_CharacterMovement
     }
 		
 	private void UpdateDirection(){
-		this.direction 		= (this.transform.position - this.oldPosition).normalized;
-		this.oldPosition 	= this.transform.position;
+		this.direction = (this.transform.position - this.oldPosition);
+		if (this.direction.sqrMagnitude > 0.001f) {
+			this.transform.right = direction;
+		}
+
+		this.oldPosition = this.transform.position;
 	}
 	
     private bool CheckRotatorEnabled() //Also handles phase shifter dropoff
@@ -74,8 +79,8 @@ public class PlayerMovement : A_CharacterMovement
                 this.hasShifter = false;
             } else
             {
-                rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
-
+//                rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
+				rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, transform.rotation) as GameObject;
             }
             return true;
         }
