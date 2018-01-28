@@ -12,10 +12,17 @@ public class LightAcceptorTrigger : MonoBehaviour {
     public float TIME_LIMIT;
     public float setPhase;
     public float phaseTol = 0.1f;
+	public string nextLevel;
+	public Transform cameraTransform;
+	public Renderer crystalRenderer;
+	private Material crystalMaterial;
         
     void Start()
     {
+		crystalMaterial = crystalRenderer.material;
         ResetAcceptor();
+		Color setPhaseColor = new Color (Mathf.Sin (2 * Mathf.PI * setPhase / 2f), 0, 0);
+		crystalMaterial.SetColor ("_EmissionColor", setPhaseColor);
     }
 
     private void Update()
@@ -44,8 +51,10 @@ public class LightAcceptorTrigger : MonoBehaviour {
             }
             if (currBeams == acceptorNum)
             {
+				
                 LightGenerator.isEnabled = false;
                 ResetAcceptor();
+				SceneController.Instance.LoadNewScene (nextLevel);
             } else
             {
                 isTiming = true;
