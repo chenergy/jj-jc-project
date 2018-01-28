@@ -8,10 +8,10 @@ public class PhaseShifter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		shiftAmount = 1f;
+		shiftAmount = .5f;
 	}
 
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "LightBeam")
@@ -21,12 +21,15 @@ public class PhaseShifter : MonoBehaviour {
         if(other.tag  == "RotatorBeam")
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.GetComponent<PlayerMovement>().hasShifter = true;
-            GameObject.Destroy(this.gameObject);
+            if (!player.GetComponent<PlayerMovement>().hasShifter)
+            {
+                player.GetComponent<PlayerMovement>().hasShifter = true;
+                GameObject.Destroy(this.gameObject);
+            }
         }
     }
-        // Update is called once per frame
-        void Update () {
-		
-	}
+    // Update is called once per frame
+    void Update()
+    {
+    }
 }

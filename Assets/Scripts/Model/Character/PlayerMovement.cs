@@ -67,23 +67,34 @@ public class PlayerMovement : A_CharacterMovement
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
             if (this.hasShifter)
             {
                 Debug.Log("Deploy shifter"); 
-                GameObject.Instantiate(PhaseShifter, this.transform.position - new Vector3(-5, 0 ,0), Quaternion.identity);
+                GameObject.Instantiate(PhaseShifter, this.transform.position + new Vector3(1, 0 ,0), Quaternion.identity);
                 this.hasShifter = false;
+            } else
+            {
+                rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
+
             }
             return true;
         }
         else if (Input.GetKey(KeyCode.Space))
         {
-            rotatorBeam.transform.position = this.transform.position;
+            if(rotatorBeam!= null)
+            {
+                rotatorBeam.transform.position = this.transform.position;
+
+            }
             return true;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            GameObject.Destroy(rotatorBeam);
+            if(rotatorBeam != null)
+            {
+                GameObject.Destroy(rotatorBeam);
+
+            }
             return false;
         }
         return false;

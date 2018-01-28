@@ -21,8 +21,8 @@ public class LightBeam : MonoBehaviour
 	{
 		this.transform.position += this.direction * this.speed * Time.fixedDeltaTime;
         this.phase = (this.phase + Time.fixedDeltaTime) % (period);
-        this.GetComponent<TrailRenderer>().startColor = new Color(Mathf.Sin(2 * Mathf.PI * phase / period), 0, 0);
-        this.GetComponent<TrailRenderer>().endColor = new Color(Mathf.Sin(2 * Mathf.PI * phase / period), 0, 0);
+        this.GetComponent<TrailRenderer>().startColor = new Color(.5f + Mathf.Sin(2 * Mathf.PI * phase / period)/2f , .5f + Mathf.Cos(2 * Mathf.PI * phase / period)/2f, 0);
+        this.GetComponent<TrailRenderer>().endColor = new Color(.5f + Mathf.Sin(2 * Mathf.PI * phase / period)/2f, .5f +  Mathf.Cos(2 * Mathf.PI * phase / period)/2f , 0);
         if(this.transform.position.sqrMagnitude >= 10000)
         {
             Destroy(this.gameObject);
