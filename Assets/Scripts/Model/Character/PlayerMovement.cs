@@ -10,6 +10,8 @@ public class PlayerMovement : A_CharacterMovement
 	private Vector3				direction;
     public GameObject rotatorBeamPrefab;
     private GameObject rotatorBeam;
+    public bool hasShifter;
+    public GameObject PhaseShifter;
 	
 	// MonoBehavior interface functions
 	// Use this for initialization
@@ -20,6 +22,7 @@ public class PlayerMovement : A_CharacterMovement
 		foreach ( GameObject lightbeam in GameObject.FindGameObjectsWithTag("LightBeam") ){
 			GameObject.Destroy(lightbeam, 5.0f);
 		}
+        this.hasShifter = false;
 	}
 	
 	// Update is called once per frame
@@ -60,11 +63,17 @@ public class PlayerMovement : A_CharacterMovement
 		this.oldPosition 	= this.transform.position;
 	}
 	
-    private bool CheckRotatorEnabled()
+    private bool CheckRotatorEnabled() //Also handles phase shifter dropoff
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rotatorBeam = GameObject.Instantiate(rotatorBeamPrefab, this.transform.position, Quaternion.identity) as GameObject;
+            if (this.hasShifter)
+            {
+                Debug.Log("Deploy shifter"); 
+                GameObject.Instantiate(PhaseShifter, this.transform.position - new Vector3(-5, 0 ,0), Quaternion.identity);
+                this.hasShifter = false;
+            }
             return true;
         }
         else if (Input.GetKey(KeyCode.Space))
