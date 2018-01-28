@@ -44,7 +44,7 @@ public class LightAcceptorTrigger : MonoBehaviour {
         {
             Debug.Log(other.GetComponent<LightBeam>().phase);
             if (Mathf.Abs(other.GetComponent<LightBeam>().phase - this.setPhase) < phaseTol ||
-                (Mathf.Abs(other.GetComponent<LightBeam>().phase-other. GetComponent<LightBeam>().period - this.setPhase) < phaseTol))
+                (Mathf.Abs(other.GetComponent<LightBeam>().phase-other.GetComponent<LightBeam>().period - this.setPhase) < phaseTol))
             {
                 this.currBeams++;
                 GameObject.Destroy(other.gameObject);

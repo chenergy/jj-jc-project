@@ -7,7 +7,7 @@ public class BasicReflectionTrigger : MonoBehaviour
 {
 	public GameObject lightBeam;
 	public bool isRotatable;
-	static float dTheta = 0.5f;
+	static float dTheta = 0.25f;
     private Vector3 reflectionPlane;
     public float angle;
 
